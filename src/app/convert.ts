@@ -45,10 +45,9 @@ function convertVideoToGif({
         debug: true,
       });
 
-      const timeIncrement = 0.05;
       const totalFrames = 50;
-      const calculatedVideoDuration = timeIncrement * totalFrames;
-      const captureDuration = Math.min(calculatedVideoDuration, video.duration);
+      const videoDuration = video.duration;
+      const timeIncrement = videoDuration / totalFrames;
 
       let currentFrame = 0;
       video.currentTime = 0;
@@ -68,14 +67,14 @@ function convertVideoToGif({
       const captureFrame = () => {
         if (gif == null) return;
 
-        if (video.currentTime < captureDuration && currentFrame < totalFrames) {
+        if (currentFrame < totalFrames) {
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
           gif.addFrame(ctx, { copy: true, delay: timeIncrement * 1000 });
 
           video.currentTime += timeIncrement;
           currentFrame++;
           const addFrameProgress = Math.round(
-            (video.currentTime / captureDuration) * 50
+            (currentFrame / totalFrames) * 50
           );
           onProgress && onProgress(addFrameProgress);
           requestAnimationFrame(captureFrame);
