@@ -10,7 +10,8 @@ const VideoToGifConverter: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [showConvertButton, setShowConvertButton] = useState<boolean>(false);
   const [videoSource, setVideoSource] = useState<string | null>(null);
-  const [totalFrames, setTotalFrames] = useState<number>(50); // Initial value
+  const [totalFrames, setTotalFrames] = useState<number>(50);
+  const [videoFileName, setVideoFileName] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const abortConversionRef = useRef<() => void>(() => { });
@@ -42,6 +43,7 @@ const VideoToGifConverter: React.FC = () => {
       setProgress(0);
       setError(null);
       setGifUrl(null);
+      setVideoFileName(file.name);
     }
   };
 
@@ -136,7 +138,13 @@ const VideoToGifConverter: React.FC = () => {
         <div>
           <img src={gifUrl} alt="Generated GIF" />
           <br />
-          <a href={gifUrl} download="generated.gif">
+          <a
+            href={gifUrl}
+            download={
+              videoFileName
+                ? `${videoFileName.substring(0, videoFileName.lastIndexOf('.'))}.gif`
+                : 'generated.gif'
+            }>
             Download GIF
           </a>
         </div>
