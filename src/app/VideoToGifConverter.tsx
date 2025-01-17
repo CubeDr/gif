@@ -98,7 +98,7 @@ const VideoToGifConverter: React.FC = () => {
           ref={videoRef}
           width="320"
           controls
-          style={{ display: 'block' }}
+          style={{ display: 'block', margin: '0 auto' }}
           onEnded={() => setShowConvertButton(false)}
         />
       )}
