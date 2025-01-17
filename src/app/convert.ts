@@ -2,6 +2,7 @@ import GIF from 'gif.js';
 
 interface ConvertVideoToGifOptions {
   videoFile: File;
+  totalFrames: number;
   onSuccess: (gifUrl: string) => void;
   onError: (error: string) => void;
   onProgress?: (progress: number) => void;
@@ -9,6 +10,7 @@ interface ConvertVideoToGifOptions {
 
 function convertVideoToGif({
   videoFile,
+  totalFrames,
   onSuccess,
   onError,
   onProgress,
@@ -45,7 +47,6 @@ function convertVideoToGif({
         debug: true,
       });
 
-      const totalFrames = 50;
       const videoDuration = video.duration;
       const timeIncrement = videoDuration / totalFrames;
 
