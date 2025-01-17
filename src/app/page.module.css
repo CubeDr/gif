@@ -1,0 +1,9 @@
+.Main {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.Title {
+  color: var(--color-primary);
+}

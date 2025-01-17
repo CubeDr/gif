@@ -80,7 +80,7 @@ const VideoToGifConverter: React.FC = () => {
   };
 
   return (
-    <div>
+    <>
       <input
         type="file"
         accept="video/*"
@@ -93,7 +93,7 @@ const VideoToGifConverter: React.FC = () => {
           ref={videoRef}
           width="320"
           controls
-          style={{ display: 'block' }}
+          style={{ display: 'block', margin: '14px auto' }}
           onEnded={() => setShowConvertButton(false)}
         />
       )}
@@ -115,14 +115,15 @@ const VideoToGifConverter: React.FC = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {gifUrl && (
-        <div>
+        <>
           <img src={gifUrl} alt="Generated GIF" />
+          <br />
           <a href={gifUrl} download="generated.gif">
             Download GIF
           </a>
-        </div>
+        </>
       )}
-    </div>
+    </>
   );
 };
 

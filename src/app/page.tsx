@@ -4,8 +4,11 @@ import VideoToGifConverter from './VideoToGifConverter';
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <VideoToGifConverter />
+    <div>
+      <main className={styles.Main}>
+        <h1 className={styles.Title}>Convert Video to GIF</h1>
+        <VideoToGifConverter />
+      </main>
     </div>
   );
 }
