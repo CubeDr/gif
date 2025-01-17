@@ -119,7 +119,25 @@ const VideoToGifConverter: React.FC = () => {
       </div>
 
       {showConvertButton && (
-        <button onClick={handleConvert} disabled={loading}>
+        <button
+          onClick={handleConvert}
+          disabled={loading}
+          style={{
+            backgroundColor: loading
+              ? 'var(--color-fill-base-300)'
+              : 'var(--color-primary)',
+            border: 'none',
+            color: 'var(--color-text)',
+            padding: '10px 20px',
+            textAlign: 'center',
+            textDecoration: 'none',
+            display: 'inline-block',
+            fontSize: '16px',
+            margin: '8px 2px',
+            cursor: loading ? 'default' : 'pointer',
+            borderRadius: '8px',
+          }}
+        >
           Convert to GIF
         </button>
       )}
@@ -128,23 +146,64 @@ const VideoToGifConverter: React.FC = () => {
         <div>
           <p>Converting... {progress}%</p>
           <progress value={progress} max="100" />
-          <button onClick={handleAbort}>Abort</button>
+          <button
+            onClick={handleAbort}
+            style={{
+              backgroundColor: 'var(--color-primary)',
+              border: 'none',
+              color: 'var(--color-text)',
+              padding: '10px 20px',
+              textAlign: 'center',
+              textDecoration: 'none',
+              display: 'inline-block',
+              fontSize: '16px',
+              margin: '8px 2px',
+              cursor: 'pointer',
+              borderRadius: '8px',
+            }}
+          >
+            Abort
+          </button>
         </div>
       )}
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {gifUrl && (
-        <div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            marginTop: '16px',
+          }}
+        >
           <img src={gifUrl} alt="Generated GIF" />
           <br />
           <a
             href={gifUrl}
             download={
               videoFileName
-                ? `${videoFileName.substring(0, videoFileName.lastIndexOf('.'))}.gif`
+                ? `${videoFileName.substring(
+                  0,
+                  videoFileName.lastIndexOf('.'),
+                )}.gif`
                 : 'generated.gif'
-            }>
+            }
+            style={{
+              backgroundColor: 'var(--color-primary)',
+              border: 'none',
+              color: 'var(--color-text)',
+              padding: '10px 20px',
+              textAlign: 'center',
+              textDecoration: 'none',
+              display: 'inline-block',
+              fontSize: '16px',
+              margin: '8px 2px',
+              cursor: 'pointer',
+              borderRadius: '8px',
+            }}
+          >
             Download GIF
           </a>
         </div>
