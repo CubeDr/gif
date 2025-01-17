@@ -77,7 +77,9 @@ function convertVideoToGif({
           const addFrameProgress = Math.round(
             (currentFrame / totalFrames) * 50
           );
-          onProgress && onProgress(addFrameProgress);
+          if (onProgress) {
+            onProgress(addFrameProgress);
+          }
           requestAnimationFrame(captureFrame);
         } else {
           gif.render();
@@ -93,7 +95,9 @@ function convertVideoToGif({
 
       gif.on('progress', (p: number) => {
         const renderProgress = 50 + Math.round(p * 50);
-        onProgress && onProgress(renderProgress);
+        if (onProgress) {
+          onProgress(renderProgress);
+        }
       });
 
       gif.on('abort', () => {
