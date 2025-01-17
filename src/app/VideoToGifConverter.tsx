@@ -1,18 +1,51 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
-import convertVideoToGif from './convert';
+import React, { useState, useRef, useEffect } from 'react';
+import convertVideoToGif from './convert'; // Adjust path if necessary
 
 const VideoToGifConverter: React.FC = () => {
   const [gifUrl, setGifUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
+  const [showConvertButton, setShowConvertButton] = useState<boolean>(false);
+  const [videoSource, setVideoSource] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const abortConversionRef = useRef<() => void>(() => { });
+
+  useEffect(() => {
+    if (videoSource && videoRef.current) {
+      videoRef.current.src = videoSource;
+      setShowConvertButton(true);
+    }
+  }, [videoSource]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith('video/')) {
+        setError('Please select a video file.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        if (e.target) {
+          setVideoSource(e.target.result as string);
+        }
+      };
+      reader.readAsDataURL(file);
+
+      setLoading(false);
+      setProgress(0);
+      setError(null);
+      setGifUrl(null);
+    }
+  };
+
+  const handleConvert = () => {
+    const file = fileInputRef.current?.files?.[0];
     if (file) {
       setLoading(true);
       setProgress(0);
@@ -24,6 +57,7 @@ const VideoToGifConverter: React.FC = () => {
         onSuccess: (url) => {
           setGifUrl(url);
           setLoading(false);
+          setShowConvertButton(false);
         },
         onError: (errorMessage) => {
           setError(errorMessage);
@@ -54,14 +88,21 @@ const VideoToGifConverter: React.FC = () => {
         ref={fileInputRef}
       />
 
-      <button
-        onClick={() => fileInputRef.current?.click()}
-        disabled={loading}
-      >
-        {fileInputRef.current?.files?.[0]
-          ? 'Change Video'
-          : 'Upload Video'}
-      </button>
+      {videoSource && (
+        <video
+          ref={videoRef}
+          width="320"
+          controls
+          style={{ display: 'block' }}
+          onEnded={() => setShowConvertButton(false)}
+        />
+      )}
+
+      {showConvertButton && (
+        <button onClick={handleConvert} disabled={loading}>
+          Convert to GIF
+        </button>
+      )}
 
       {loading && (
         <div>
