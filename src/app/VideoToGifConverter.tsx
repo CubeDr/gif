@@ -135,6 +135,7 @@ const VideoToGifConverter: React.FC = () => {
       {gifUrl && (
         <div>
           <img src={gifUrl} alt="Generated GIF" />
+          <br />
           <a href={gifUrl} download="generated.gif">
             Download GIF
           </a>
